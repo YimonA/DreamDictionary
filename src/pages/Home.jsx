@@ -9,23 +9,12 @@ import {
   addBlogDetail,
   setSearchTerm,
 } from "../redux/services/dreamSlice";
-import { Link, useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
 import { GiEmptyHourglass } from "react-icons/gi";
-import { Tabs, rem } from "@mantine/core";
-// import {
-//   IconPhoto,
-//   IconMessageCircle,
-//   IconSettings,
-// } from "@tabler/icons-react";
-import { Loader } from "@mantine/core";
 
 const Home = () => {
-  const iconStyle = { width: rem(12), height: rem(12) };
-  const [blogId, setBlogId] = useState(null);
+  const [show, setShow] = useState("all");
   const [ans, setAns] = useState(null);
   const dispatch = useDispatch();
-  const nav = useNavigate();
   const { data: dreamHeader } = useGetBlogHeaderQuery();
   const { data: dreamDetail, isLoading } = useGetBlogDetailQuery();
   const header = useSelector((state) => state.dreamSlice.blogHeader);
@@ -42,19 +31,18 @@ const Home = () => {
   if (isLoading) {
     return (
       <div className=" flex justify-center items-center w-screen h-screen">
-        <Loader color="violet" type="bars" />;
+        <GiEmptyHourglass className=" animate-spin mr-2" size={'2rem'}/>
+        <p className=" font-semibold text-2xl text-center animate-plus	">Loading...</p>
       </div>
     );
   }
 
-  const categoryHandler = (e, id) => {
+  const categoryHandler = async (e, id) => {
     e.preventDefault();
-    setBlogId(id);
-    const results = detail
+    setAns(null);
+    const results = await detail
       ?.filter((d) => {
-        if (blogId === null) {
-          return d;
-        } else if (d.BlogId === blogId) {
+        if (d.BlogId === id) {
           return detail;
         }
       })
@@ -73,8 +61,10 @@ const Home = () => {
           </div>
         );
       });
-    console.log("results", ans);
     setAns(results);
+    console.log("results", ans);
+    setShow("category");
+
   };
 
   const rows = detail
@@ -102,58 +92,34 @@ const Home = () => {
     });
 
   return (
-    <div className="container mx-auto h-screen p-5">
-      <Tabs defaultValue="search" className="mb-10">
-        <Tabs.List>
-          <Tabs.Tab
-            value="search"
-            // leftSection={<IconPhoto style={iconStyle} />}
-          >
-            Search
-          </Tabs.Tab>
-          <Tabs.Tab
-            value="category"
-            // leftSection={<IconMessageCircle style={iconStyle} />}
-          >
-            By Category
-          </Tabs.Tab>
-        </Tabs.List>
-
-        <Tabs.Panel value="search">
-          <>
-            <input
-              type="text"
-              className="w-full h-10 p-5 border-2 border-black rounded-lg mb-5"
-              variant="filled"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-            />
-            <div className=" h-[550px] overflow-y-scroll scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-300 border border-black mb-5">
-              {rows}
-            </div>
-          </>
-        </Tabs.Panel>
-
-        <Tabs.Panel value="category">
-          <>
-            <div className="w-fit flex flex-wrap mx-auto mb-5">
-              {header?.map((h) => {
-                return (
-                  <button
-                    key={h?.BlogId}
-                    onClick={(e) => categoryHandler(e, h?.BlogId)}
-                    className="w-10 h-10 font-semibold text-xl bg-black text-white hover:bg-zinc-900 border border-white"
-                  >
-                    {h?.BlogTitle.substring(2, 3)}
-                  </button>
-                );
-              })}
-            </div>
-            <div className=" h-[550px] overflow-y-scroll scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-300 border border-black mb-5">{ans}</div>
-          </>
-        </Tabs.Panel>
-      </Tabs>
+    <div className="container mx-auto h-screen px-5 py-6">
+      <p className=" font-bold text-3xl text-center mb-6">Dream Dictionary</p>
+      <input
+        onFocus={() => setShow("all")}
+        type="text"
+        className="w-full h-10 p-5 border-2 border-black rounded-lg mb-6"
+        variant="filled"
+        placeholder="Search"
+        value={searchTerm}
+        onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+      />
+      <div className="w-fit flex flex-wrap justify-center items-center mx-auto mb-6">
+        {header?.map((h) => {
+          return (
+            <button
+              key={h?.BlogId}
+              onClick={(e) => categoryHandler(e, h?.BlogId)}
+              className="w-10 h-10 font-semibold text-xl bg-black text-white hover:bg-zinc-900 border border-white"
+            >
+              {h?.BlogTitle.substring(2, 3)}
+            </button>
+          );
+        })}
+      </div>
+      <div className="bg-zinc-700 h-[80%] xl:h-[65%] 2xl:h-[80%] overflow-y-scroll scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-300 mb-6">
+        {show === "all" ? rows : null}
+        {show === "category" ? ans : null}
+      </div>
     </div>
   );
 };
