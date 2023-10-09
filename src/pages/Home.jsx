@@ -52,10 +52,10 @@ const Home = () => {
             key={d?.BlogDetailId}
             className=" flex cursor-pointer border border-gray-400  bg-black text-white hover:bg-zinc-900"
           >
-            <span className=" w-20 h-16 flex justify-center items-center select-none">
+            {/* <span className=" w-20 h-16 flex justify-center items-center select-none">
               {d?.BlogDetailId}
-            </span>
-            <span className="w-full h-16 flex justify-start items-center px-3 select-none">
+            </span> */}
+            <span className="w-full h-16 flex justify-start items-center px-3 select-none sm:text-[14px]">
               {d?.BlogContent}
             </span>
           </div>
@@ -81,10 +81,10 @@ const Home = () => {
           key={d?.BlogDetailId}
           className=" flex cursor-pointer border border-gray-400  bg-black text-white hover:bg-zinc-900"
         >
-          <span className=" w-20 h-16 flex justify-center items-center select-none">
+          {/* <span className=" w-20 h-16 flex justify-center items-center select-none">
             {d?.BlogDetailId}
-          </span>
-          <span className="w-full h-16 flex justify-start items-center px-3 select-none">
+          </span> */}
+          <span className="w-full h-16 flex justify-start items-center px-3 select-none sm:text-[14px]">
             {d?.BlogContent}
           </span>
         </div>
