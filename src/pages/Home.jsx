@@ -55,7 +55,7 @@ const Home = () => {
             {/* <span className=" w-20 h-16 flex justify-center items-center select-none">
               {d?.BlogDetailId}
             </span> */}
-            <span className="w-full h-16 flex justify-start items-center px-3 select-none sm:text-[14px]">
+            <span className="w-full h-24 md:h-16 flex justify-start items-center px-3 select-none sm:text-[12px] text-[16px]">
               {d?.BlogContent}
             </span>
           </div>
