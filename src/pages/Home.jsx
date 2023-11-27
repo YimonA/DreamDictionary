@@ -52,10 +52,7 @@ const Home = () => {
             key={d?.BlogDetailId}
             className=" flex cursor-pointer border border-gray-400  bg-black text-white hover:bg-zinc-900"
           >
-            {/* <span className=" w-20 h-16 flex justify-center items-center select-none">
-              {d?.BlogDetailId}
-            </span> */}
-            <span className="w-full h-24 md:h-16 flex justify-start items-center px-3 select-none sm:text-[12px] text-[16px]">
+            <span className="w-full py-3 md:h-16 flex justify-start items-center px-3 select-none sm:text-[12px] text-[16px]">
               {d?.BlogContent}
             </span>
           </div>
@@ -84,7 +81,7 @@ const Home = () => {
           {/* <span className=" w-20 h-16 flex justify-center items-center select-none">
             {d?.BlogDetailId}
           </span> */}
-          <span className="w-full h-16 flex justify-start items-center px-3 select-none sm:text-[14px]">
+          <span className="w-full py-3 flex justify-start items-center px-3 select-none sm:text-sm">
             {d?.BlogContent}
           </span>
         </div>
@@ -109,7 +106,7 @@ const Home = () => {
             <button
               key={h?.BlogId}
               onClick={(e) => categoryHandler(e, h?.BlogId)}
-              className="w-10 h-10 font-semibold text-xl bg-black text-white hover:bg-zinc-900 border border-white"
+              className="w-10 h-10 flex justify-center items-center font-semibold text-xl bg-black text-white hover:bg-zinc-900 border border-white"
             >
               {h?.BlogTitle.substring(2, 3)}
             </button>
